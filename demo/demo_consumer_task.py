@@ -13,10 +13,10 @@ def consumer_task(record):
     :return:
     """
     print('consumer_task', (
-        'received type: {},topic: {}, msg: {}'.format(record['type'], record['channel'], record['data'])))
+        'received type: {}, channel: {}, msg: {}'.format(record['type'], record['channel'], record['data'])))
     if record['type'] == 'message':
         print('data', json.loads(record['data']))
-    if record['channel'] == 'topic1':
+    if record['channel'] == 'channel_1':
         redis_producer.produce_msg({'type': 'task result'})
 
 

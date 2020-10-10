@@ -14,7 +14,7 @@ class EasyRedisLog:
         if EasyRedisLog.__logger is None:
             with EasyRedisLog.__instance_lock:
                 if EasyRedisLog.__logger is None:
-                    logger = logging.getLogger('easy_redis')
+                    logger = logging.getLogger('easy_redis_log')
                     logger.setLevel(logging.INFO)
                     # handler, stdout
                     ch = logging.StreamHandler()

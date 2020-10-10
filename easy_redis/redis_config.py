@@ -8,8 +8,8 @@ from .redis_log import EasyRedisLog
 class EasyRedisConfig:
     server = '127.0.0.1'
     port = 6379
-    topic_subscribe = ['demo_topic']
-    topic_produce = 'demo_topic'
+    channel_subscribe = ['demo_channel']
+    channel_produce = 'demo_channel'
     logger = EasyRedisLog.logger()
 
     def __init__(self, yml_path):
@@ -23,8 +23,8 @@ class EasyRedisConfig:
         with open(yml_path, encoding='UTF-8') as f:
             data = f.read()
             conf = yaml.load(data, Loader=yaml.FullLoader)
-            self.server = conf['redis']['server']
-            self.port = conf['redis']['port']
-            self.topic_subscribe = conf['redis']['topic_subscribe']
-            self.topic_produce = conf['redis']['topic_produce']
+            self.server = conf['redis'].get('server')
+            self.port = conf['redis'].get('port')
+            self.channel_subscribe = conf['redis'].get('channel_subscribe')
+            self.channel_produce = conf['redis'].get('channel_produce')
             self.logger.info('EasyRedisConfig: yml parse done')

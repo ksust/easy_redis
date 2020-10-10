@@ -20,9 +20,9 @@ class EasyRedisConsumer:
             raise TypeError('config_or_yml_path: need str or EasyRedisConfig')
         self.redis_conn = EasyRedis(config_or_yml_path).redis_conn
         self.consumer = self.redis_conn.pubsub()
-        self.consumer.subscribe(self.__config_dic['topic_subscribe'])
-        self.logger.info('consumer started[topic: {}]'.format(
-            self.__config_dic['topic_subscribe']))
+        self.consumer.subscribe(self.__config_dic['channel_subscribe'])
+        self.logger.info('consumer started[channel: {}]'.format(
+            self.__config_dic['channel_subscribe']))
 
     def __iter__(self):
         return self.consumer.listen().__iter__()
@@ -40,5 +40,5 @@ class EasyRedisConsumer:
         """
         for record in self:
             self.logger.info(
-                'received type: {}, topic: {}, msg: {}'.format(record['type'], record['channel'], record['data']))
+                'received type: {}, channel: {}, msg: {}'.format(record['type'], record['channel'], record['data']))
             fn(record)

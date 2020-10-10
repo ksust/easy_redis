@@ -21,22 +21,22 @@ class EasyRedisProducer:
         else:
             raise TypeError('config_or_yml_path: need str or EasyRedisConfig')
         self.redis_conn = EasyRedis(config_or_yml_path).redis_conn
-        self.topic = self.__config_dic['topic_produce']
-        self.logger.info('producer started[topic: %s]' % self.topic)
+        self.channel = self.__config_dic['channel_produce']
+        self.logger.info('producer started[channel: %s]' % self.channel)
 
     def produce_msg(self, msg):
         """
-        produce msg with default topic
+        produce msg with default channel
         :param msg:json or dic
         :return:
         """
-        self.produce_msg_topic(self.topic, msg)
+        self.produce_msg_channel(self.channel, msg)
 
-    def produce_msg_topic(self, topic: str, msg):
+    def produce_msg_channel(self, channel: str, msg):
         """
-        produce msg with topic
-        :param topic:
+        produce msg with channel
+        :param channel:
         :param msg:json or dic
         :return:
         """
-        self.redis_conn.publish(topic, json.dumps(msg))
+        self.redis_conn.publish(channel, json.dumps(msg))

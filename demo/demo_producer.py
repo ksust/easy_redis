@@ -12,7 +12,7 @@ def demo_produce_msg_with_config():
     print('config', config.__dict__)
     redis_producer = EasyRedisProducer(config)
     redis_producer.produce_msg({'name': 'ksust'})
-    redis_producer.produce_msg_topic('topic1', {'name': 'ksust'})
+    redis_producer.produce_msg_channel('channel_1', {'name': 'ksust'})
 
 
 if __name__ == "__main__":

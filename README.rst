@@ -21,10 +21,10 @@ Edit conf/conf.yml
     redis: # redis config
       server: 127.0.0.1 # redis server
       port: 6379
-      topic_subscribe: # topic if need, multiple
-        - topic1
-        - topic2
-      topic_produce: topic1_result # producer default topic
+      channel_subscribe: # channel if need, multiple
+        - channel_1
+        - channel_2
+      channel_produce: channel_1_result # producer default channel
 
 2.demo-consumer
 >>>>>>>>>>>>>>>>>>
@@ -45,15 +45,17 @@ Edit conf/conf.yml
     if __name__ == "__main__":
         start_consumer()
 
-3.demo-consumer-callback
+3.demo-consumer-task
 >>>>>>>>>>>>>>>>>>>>>>>>>
 ::
 
     import json
+
     from easy_redis.redis_consumer import EasyRedisConsumer
     from easy_redis.redis_producer import EasyRedisProducer
 
     redis_producer = EasyRedisProducer('../conf/conf.yml')
+
 
     def consumer_task(record):
         """
@@ -62,16 +64,18 @@ Edit conf/conf.yml
         :return:
         """
         print('consumer_task', (
-            'received type: {},topic: {}, msg: {}'.format(record['type'], record['channel'], record['data'])))
+            'received type: {}, channel: {}, msg: {}'.format(record['type'], record['channel'], record['data'])))
         if record['type'] == 'message':
             print('data', json.loads(record['data']))
-        if record['channel'] == 'topic1':
+        if record['channel'] == 'channel_1':
             redis_producer.produce_msg({'type': 'task result'})
+
 
     def start_consumer():
         redis_consumer = EasyRedisConsumer('../conf/conf.yml')
         print('consumer task started')
         redis_consumer.subscribe(fn=consumer_task)
+
 
     if __name__ == "__main__":
         start_consumer()
@@ -94,7 +98,7 @@ Edit conf/conf.yml
         print('config', config.__dict__)
         redis_producer = EasyRedisProducer(config)
         redis_producer.produce_msg({'name': 'ksust'})
-        redis_producer.produce_msg_topic('topic1', {'name': 'ksust'})
+        redis_producer.produce_msg_channel('channel_1', {'name': 'ksust'})
 
 
     if __name__ == "__main__":

@@ -3,7 +3,7 @@ name: app_name
 redis: # redis config
   server: 127.0.0.1 # redis server
   port: 6379
-  topic_subscribe: # topic if need, multiple
-    - topic1
-    - topic2
-  topic_produce: topic1_result # producer default topic
+  channel_subscribe: # channel if need, multiple
+    - channel_1
+    - channel_2
+  channel_produce: channel_1_result # producer default channel
